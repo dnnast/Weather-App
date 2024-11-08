@@ -2,15 +2,36 @@ import "./style.css";
 import "./reset.css";
 import "./inputRangeStyle.css";
 import "./searchField.css";
+import "./loadingIcon.css";
 
 const searchBtn = document.getElementById("search-btn");
 const searchCity = document.getElementById("search-city");
 const headerContent = document.getElementById("header-content");
+const searchContainer = document.getElementById("search-container");
 
 const sidebarBTNs = document.getElementById("sidebar");
 const sidebarBtnItems = document.querySelectorAll(".sidebar-items");
 
 const weatherContainer = document.getElementById("main-container");
+
+// error message
+const errorMessage = document.createElement("p");
+errorMessage.id = "error-message";
+errorMessage.innerText = "Incorrect Input. Try Again.";
+errorMessage.style.display = "none";
+searchContainer.appendChild(errorMessage);
+
+// loading indicator
+const loadingIndicator = document.createElement("div");
+loadingIndicator.id = "loading-container";
+
+const loading = document.createElement("div");
+loading.id = "loading";
+
+loadingIndicator.style.display = "none"; // Initially hidden
+
+document.body.appendChild(loadingIndicator);
+loadingIndicator.appendChild(loading);
 
 // create DOM elements for slider-container
 const sliderContainer = document.createElement("div");
@@ -193,7 +214,11 @@ function removeClassBtnActive() {
 
 // ---------------------- EVENT LISTENERS ------------------------------------------
 searchBtn.addEventListener("click", async (e) => {
+    loadingIndicator.style.display = "block";
     weatherData = await getData(searchCity.value);
+    loadingIndicator.style.display = "none";
+
+    errorMessage.style.display = "none";
     if (weatherData) {
         console.log(weatherData);
 
@@ -213,7 +238,7 @@ searchBtn.addEventListener("click", async (e) => {
         // show weather
         showWeather(weatherData, date, time);
     } else {
-        headerContent.innerHTML = `<p>Incorrect input. Try again.</p>`;
+        errorMessage.style.display = "block";
     }
     searchCity.value = "";
 });

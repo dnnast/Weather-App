@@ -1,0 +1,35 @@
+#loading-container{
+    background-color: rgb(233, 255, 255);
+    border-radius: 20px;
+    
+    position: fixed;
+    
+    top: 50vh;
+    right: 50vw;
+
+    width: 70px;
+    height: 70px;
+
+    box-shadow: 0 0 25px 7px rgba(153, 228, 255, 0.513);
+
+}
+
+#loading {
+    width:50px;
+    height:50px;
+
+    margin: 10px;
+
+    --c:radial-gradient(farthest-side,#1190bb 92%,#0000);
+    background: 
+      var(--c) 50% 0,
+      var(--c) 50% 100%,
+      var(--c) 100% 50%,
+      var(--c) 0    50%;
+    background-size:12px 12px;
+    background-repeat:no-repeat;
+    animation:s7 1s infinite;
+}
+
+
+@keyframes s7 {to{transform: rotate(.5turn)}}
