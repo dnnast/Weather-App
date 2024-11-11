@@ -6,7 +6,6 @@ import "./loadingIcon.css";
 
 const searchBtn = document.getElementById("search-btn");
 const searchCity = document.getElementById("search-city");
-const headerContent = document.getElementById("header-content");
 const searchContainer = document.getElementById("search-container");
 
 const sidebarBTNs = document.getElementById("sidebar");
@@ -147,12 +146,27 @@ function timePmOrAm(time) {
     return `${time - 12}:00 PM`;
 }
 
+function toUpperCaseFirstLetter(city) {
+    var splitStr = city.toLowerCase().split(" ");
+    for (var i = 0; i < splitStr.length; i++) {
+        // You do not need to check if i is larger than splitStr length, as your for does that for you
+        // Assign it back to the array
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    // Directly return the joined string
+    return splitStr.join(" ");
+}
+
 // ---------------------- DOM MANIPULATION -----------------------------------------
 function showWeather(weatherData, date, time) {
     slider.value = time;
     const currWeatherInfo = weatherData.days[date].hours[time];
 
     weatherContainer.innerHTML = `
+                                    <div id="city-name-container">${toUpperCaseFirstLetter(
+                                        weatherData.address
+                                    )}</div>
+
                                     <div id="current-weather-container">
                                         <div id="temp-container" class="weather-container-item">
                                             <p id="temp">${fahrenheitToCelsius(
@@ -168,7 +182,7 @@ function showWeather(weatherData, date, time) {
                                     </div>
 
                                     <div id="icon-container">
-                                        <img id="weather-icon" src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/58c79610addf3d4d91471abbb95b05e96fb43019/SVG/2nd%20Set%20-%20Color/${
+                                        <img id="weather-icon" src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/58c79610addf3d4d91471abbb95b05e96fb43019/SVG/2nd%20Set%20-%20Monochrome/${
                                             currWeatherInfo.icon
                                         }.svg">
                                     </div>
@@ -223,7 +237,7 @@ searchBtn.addEventListener("click", async (e) => {
         console.log(weatherData);
 
         // add name of the city to the header
-        headerContent.innerHTML = weatherData.address.toUpperCase();
+        //headerContent.innerHTML = weatherData.address.toUpperCase();
         //headerContent.innerHTML += dateFormat(weatherData.)
         // show sidebar and main-content containers
         weatherContainer.classList.remove("hiddenElement");
